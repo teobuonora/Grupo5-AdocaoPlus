@@ -2,7 +2,7 @@ animais={}
 
 def adicionar_animal(nome_chave, info):
     animais[nome_chave]=info  
-    print("animal adicionado com sucesso" )
+    print("\nanimal adicionado com sucesso" )
 
 def visualizar_animal(nome_chave):
     if nome_chave in animais:

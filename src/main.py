@@ -1,3 +1,5 @@
+import os
+os.system ("cls")
 from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
 
 while True:
@@ -8,10 +10,10 @@ while True:
     print("[4]- excluir")
     print("[5]- sair")
 
-    funcao=int(input("digite um número equivalente a uma função: "))
+    funcao=int(input("\ndigite um número equivalente a uma função: "))
    
     if funcao == 1 :
-      nome_chave=input("digite o nome do animal: ")
+      nome_chave=input("\ndigite o nome do animal: ")
 
       info={
           "espécie": input("Espécie: "),
@@ -25,7 +27,7 @@ while True:
 
 
     elif funcao == 2:
-        nome=input("escolha o nome que deseja visualizar: ")
+        nome=input("\nescolha o nome que deseja visualizar: ")
         visualizar_animal(nome)
     elif funcao == 3:
         editar_animal()
