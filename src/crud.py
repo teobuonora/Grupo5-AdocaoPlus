@@ -2,9 +2,9 @@ animais={}
 
 def adicionar_animal(nome_chave, info):
     animais[nome_chave]=info  
-    print("animal adicionado com sucesso" )
+    print("\nanimal adicionado com sucesso" )
 
-def visualizar_animal(nome):
+def visualizar_animal(nome_chave):
     if nome_chave in animais:
         print(f"{nome_chave}: {animais[nome_chave]}")
     else:
@@ -48,41 +48,3 @@ def excluir_animal():
        return animais.pop(nome_excluir)
     
     
-
-while True:
-    print("=====FUNÇÕES=====")
-    print("[1]- adicionar animal")
-    print("[2]- visualizar")
-    print("[3]- editar")
-    print("[4]- excluir")
-    print("[5]- sair")
-
-    funcao=int(input("digite um número equivalente a uma função: "))
-   
-    if funcao == 1 :
-      nome_chave=input("digite o nome do animal: ")
-
-      info={
-          "espécie": input("Espécie: "),
-            "raça": input("Raça: "),
-            "idade": input("Idade: "),
-            "estado de saúde": input("Estado de saúde: "),
-            "comportamento": input("Comportamento: "),
-            "data de chegada": input("Data de chegada: ")
-        }
-      adicionar_animal(nome_chave,info)
-
-
-    elif funcao == 2:
-        nome=input("escolha o nome que deseja visualizar: ")
-        visualizar_animal(nome)
-    elif funcao == 3:
-        editar_animal()
-    elif funcao == 4:
-        excluir_animal()
-    elif funcao == 5:
-        print("você saiu !")
-        break
-    else:
-        print("função inválida")
-
