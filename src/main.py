@@ -1,4 +1,4 @@
-import crud
+from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
 
 while True:
     print("=====FUNÇÕES=====")
