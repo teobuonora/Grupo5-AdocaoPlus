@@ -56,7 +56,7 @@ def cadastrar_cuidado(animais):
 def visualizar_cuidados(animais):
     nome = input("Nome do animal: ").strip()
     if nome not in animais:
-        print("Animal não encontrado.")
+        print("Animal não encontrado!")
         return
  
     if "cuidados" not in animais[nome] or len(animais[nome]["cuidados"]) == 0:
