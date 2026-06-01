@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 import os
 os.system ("cls")
 from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
-=======
 animais={}
 
 def adicionar_animal(nome_chave, info):
@@ -53,7 +51,6 @@ def excluir_animal():
        return animais.pop(nome_excluir)
     
     
->>>>>>> matheus-figueiredo
 
 while True:
     print("=====FUNÇÕES=====")
@@ -63,17 +60,16 @@ while True:
     print("[4]- excluir")
     print("[5]- sair")
 
-<<<<<<< HEAD
+
     funcao=int(input("\ndigite um número equivalente a uma função: "))
    
     if funcao == 1 :
       nome_chave=input("\ndigite o nome do animal: ")
-=======
+
     funcao=int(input("digite um número equivalente a uma função: "))
    
     if funcao == 1 :
       nome_chave=input("digite o nome do animal: ")
->>>>>>> matheus-figueiredo
 
       info={
           "espécie": input("Espécie: "),
@@ -87,11 +83,8 @@ while True:
 
 
     elif funcao == 2:
-<<<<<<< HEAD
         nome=input("\nescolha o nome que deseja visualizar: ")
-=======
         nome=input("escolha o nome que deseja visualizar: ")
->>>>>>> matheus-figueiredo
         visualizar_animal(nome)
     elif funcao == 3:
         editar_animal()
@@ -103,7 +96,5 @@ while True:
     else:
         print("função inválida")
 
-<<<<<<< HEAD
-=======
+
 print("=====cadastro=======")
->>>>>>> matheus-figueiredo
