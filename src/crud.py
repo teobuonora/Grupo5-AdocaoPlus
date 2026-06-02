@@ -8,7 +8,7 @@ def visualizar_animal(nome):
     if nome_chave in animais:
         print(f"{nome_chave}: {animais[nome_chave]}")
     else:
-        print("Animal inválido")
+        print("Animal inválido!")
 
 def editar_animal():
     nome_editar=input("Digite o nome do animal que deseja editar: ")
