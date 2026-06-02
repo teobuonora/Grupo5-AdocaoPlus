@@ -3,17 +3,6 @@ import os
 os.system ("cls")
 from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
 
-
-import os
-os.system ("cls")
-from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
-
-
-import os
-os.system ("cls")
-from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
-animais={}
-
 def adicionar_animal(nome_chave, info):
     animais[nome_chave]=info  
     print("animal adicionado com sucesso" )
