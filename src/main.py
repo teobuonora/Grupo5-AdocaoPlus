@@ -1,14 +1,17 @@
-<<<<<<< HEAD
 
 import os
 os.system ("cls")
 from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
 
-=======
+
 import os
 os.system ("cls")
 from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
->>>>>>> f12df0f (corrigindo conflitos)
+
+
+import os
+os.system ("cls")
+from crud import adicionar_animal, animais, visualizar_animal, editar_animal, excluir_animal
 animais={}
 
 def adicionar_animal(nome_chave, info):
@@ -57,12 +60,9 @@ def excluir_animal():
     nome_excluir=input("digite o nome do animal que deseja excluir: ")
     if nome_excluir in animais:
        return animais.pop(nome_excluir)
+
+
     
-<<<<<<< HEAD
- 
-=======
-    
->>>>>>> f12df0f (corrigindo conflitos)
 
 while True:
     print("=====FUNÇÕES=====")
@@ -82,10 +82,7 @@ while True:
    
     if funcao == 1 :
       nome_chave=input("digite o nome do animal: ")
-<<<<<<< HEAD
 
-=======
->>>>>>> f12df0f (corrigindo conflitos)
 
       info={
           "espécie": input("Espécie: "),
@@ -100,13 +97,14 @@ while True:
 
     elif funcao == 2:
         nome=input("\nescolha o nome que deseja visualizar: ")
-<<<<<<< HEAD
 
         nome=input("escolha o nome que deseja visualizar: ")
 
-=======
         nome=input("escolha o nome que deseja visualizar: ")
->>>>>>> f12df0f (corrigindo conflitos)
+
+        nome=input("escolha o nome que deseja visualizar: ")
+
+
         visualizar_animal(nome)
     elif funcao == 3:
         editar_animal()
@@ -119,8 +117,5 @@ while True:
         print("função inválida")
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> f12df0f (corrigindo conflitos)
 print("=====cadastro=======")
