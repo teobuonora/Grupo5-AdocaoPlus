@@ -2,19 +2,19 @@ animais={}
 
 def adicionar_animal(nome_chave, info):
     animais[nome_chave]=info  
-    print("animal adicionado com sucesso" )
+    print("\nAnimal adicionado com sucesso" )
 
 def visualizar_animal(nome):
     if nome_chave in animais:
         print(f"{nome_chave}: {animais[nome_chave]}")
     else:
-        print("animal inválido")
+        print("Animal inválido")
 
 def editar_animal():
-    nome_editar=input("digite o nome do animal que deseja editar: ")
+    nome_editar=input("Digite o nome do animal que deseja editar: ")
     if nome_editar in animais:
         print(f"Dados atuais: {animais[nome_editar]}")
-        print("oque deseja editar ? ")
+        print("O que deseja editar ? ")
         print("[1]- nome")
         print("[2]-espécie")
         print("[3]- raça")
@@ -23,10 +23,10 @@ def editar_animal():
         print("[6]- comportamento")
         print("[7]- data de chegada ")
 
-        campo=input("digite o número do campo: ")
-        campos={"1": "nome",
-                "2": "espécie",
-                "3": "raça",
+        campo=input("Digite o número do campo: ")
+        campos={"1": "Nome",
+                "2": "Espécie",
+                "3": "Raça",
                 "4": "idade",
                 "5": "estado de saúde",
                 "6": "comportamento",
@@ -84,3 +84,4 @@ while True:
     else:
         print("função inválida")
 
+    

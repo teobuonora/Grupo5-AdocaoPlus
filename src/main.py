@@ -52,7 +52,7 @@ def excluir_animal():
     if nome_excluir in animais:
        return animais.pop(nome_excluir)
     
-    
+ 
 
 while True:
     print("=====FUNÇÕES=====")
@@ -62,10 +62,17 @@ while True:
     print("[4]- excluir")
     print("[5]- sair")
 
+
+    funcao=int(input("\ndigite um número equivalente a uma função: "))
+   
+    if funcao == 1 :
+      nome_chave=input("\ndigite o nome do animal: ")
+
     funcao=int(input("digite um número equivalente a uma função: "))
    
     if funcao == 1 :
       nome_chave=input("digite o nome do animal: ")
+
 
       info={
           "espécie": input("Espécie: "),
@@ -79,7 +86,10 @@ while True:
 
 
     elif funcao == 2:
+        nome=input("\nescolha o nome que deseja visualizar: ")
+
         nome=input("escolha o nome que deseja visualizar: ")
+
         visualizar_animal(nome)
     elif funcao == 3:
         editar_animal()
@@ -90,5 +100,7 @@ while True:
         break
     else:
         print("função inválida")
+
+
 
 print("=====cadastro=======")
