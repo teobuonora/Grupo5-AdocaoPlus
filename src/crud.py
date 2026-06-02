@@ -46,10 +46,7 @@ def excluir_animal():
     nome_excluir=input("digite o nome do animal que deseja excluir: ")
     if nome_excluir in animais:
        return animais.pop(nome_excluir)
-
     
-    
-
 while True:
     print("=====FUNÇÕES=====")
     print("[1]- adicionar animal")
@@ -73,6 +70,7 @@ while True:
         }
       adicionar_animal(nome_chave,info)
 
+      
     elif funcao == 2:
         nome=input("escolha o nome que deseja visualizar: ")
         visualizar_animal(nome)
