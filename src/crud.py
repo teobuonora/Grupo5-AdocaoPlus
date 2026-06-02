@@ -1,27 +1,54 @@
 animais={}
 
 def adicionar_animal(nome_chave, info):
+
     animais[nome_chave]=info  
     print("\nAnimal adicionado com sucesso" )
 
-def visualizar_animal(nome):
+
     if nome_chave in animais:
-        print(f"{nome_chave}: {animais[nome_chave]}")
+        print("Esse animal já está cadastrado!")
+        return
+
+    animais[nome_chave] = info
+    print("animal adicionado com sucesso")
+
+def visualizar_animal(nome_chave):
+
+    if nome_chave in animais:
+
+        print(f"\nNome: {nome_chave}")
+
+        for chave, valor in animais[nome_chave].items():
+            print(f"{chave}: {valor}")
+
     else:
-        print("Animal inválido!")
+        print("Animal inválido")
 
 def editar_animal():
+    nome_editar = input("digite o nome do animal que deseja editar: ")
+
+
     nome_editar=input("Digite o nome do animal que deseja editar: ")
+
     if nome_editar in animais:
+
         print(f"Dados atuais: {animais[nome_editar]}")
+
+
+        print("o que deseja editar?")
+
         print("O que deseja editar ? ")
+
         print("[1]- nome")
-        print("[2]-espécie")
+        print("[2]- espécie")
         print("[3]- raça")
         print("[4]- idade")
         print("[5]- estado de saúde")
         print("[6]- comportamento")
-        print("[7]- data de chegada ")
+        print("[7]- data de chegada")
+
+        campo = input("digite o número do campo: ")
 
         campo=input("Digite o número do campo: ")
         campos={"1": "Nome",
@@ -37,15 +64,54 @@ def editar_animal():
          chave_campo= campos[campo]
          novo_valor=input(f"digite a nova informação para {chave_campo}:  ")
 
-        animais[nome_editar][chave_campo]=novo_valor
-        print((f"campo {chave_campo} atualizado com sucesso!"))
-          
+
+        campos = {
+            "2": "espécie",
+            "3": "raça",
+            "4": "idade",
+            "5": "estado de saúde",
+            "6": "comportamento",
+            "7": "data de chegada"
+        }
+
+        if campo == "1":
+            novo_nome = input("Digite o novo nome: ")
+
+            if novo_nome in animais:
+                print("Já existe um animal com esse nome!")
+            else:
+                animais[novo_nome] = animais.pop(nome_editar)
+                print("Nome atualizado com sucesso!")
+            
+
+        elif campo in campos:
+
+            chave_campo = campos[campo]
+
+            novo_valor = input(
+                f"Digite a nova informação para {chave_campo}: "
+            )
+
+            animais[nome_editar][chave_campo] = novo_valor
+
+            print(
+                f"Campo {chave_campo} atualizado com sucesso!"
+            )
+
+        else:
+            print("Campo inválido!")
+
+    else:
+        print("Animal não encontrado!")
 
 
 def excluir_animal():
     nome_excluir=input("digite o nome do animal que deseja excluir: ")
     if nome_excluir in animais:
-       return animais.pop(nome_excluir)
+        animais.pop(nome_excluir)
+        print("animal excluído com sucesso")
+    else:
+        print("animal não encontrado")
     
     
 
@@ -57,7 +123,11 @@ while True:
     print("[4]- excluir")
     print("[5]- sair")
 
-    funcao=int(input("digite um número equivalente a uma função: "))
+    try:
+        funcao = int(input("digite um número equivalente a uma função: "))
+    except ValueError:
+        print("Digite apenas números!")
+        continue
    
     if funcao == 1 :
       nome_chave=input("digite o nome do animal: ")
@@ -65,7 +135,7 @@ while True:
       info={
           "espécie": input("Espécie: "),
             "raça": input("Raça: "),
-            "idade": input("Idade: "),
+            "idade": int(input("Idade: ")),
             "estado de saúde": input("Estado de saúde: "),
             "comportamento": input("Comportamento: "),
             "data de chegada": input("Data de chegada: ")
@@ -85,5 +155,3 @@ while True:
         break
     else:
         print("função inválida")
-
-    
