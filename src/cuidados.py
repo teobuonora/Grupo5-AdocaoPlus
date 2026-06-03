@@ -1,5 +1,5 @@
 from crud import animais, buscar_animal, selecionar_opcao
-
+from alertas_regressiva import alertas_cuidados
 TIPOS_CUIDADO = ["Vacina", "Banho", "Consulta veterinária", "Treino", "Outro"]
 RESPONSAVEIS  = ["Veterinário", "Tutor", "Funcionário do abrigo", "Voluntário", "Outro"]
 
@@ -51,19 +51,23 @@ def visualizar_cuidados():
         print(f"  {i}. {c['tipo']:<25} {c['data_prevista']}  —  Resp: {c['responsavel']}")
 
 def menu_cuidados():
+    
     while True:
+        alertas_cuidados()
         print("ABA DE CUIDADOS")
         print("[1] Cadastrar cuidado")
         print("[2] Visualizar cuidados")
         print("[0] Voltar ao menu principal")
 
         opcao = input("Escolha uma opção: ").strip()
-
+       
         if opcao == "1":
             cadastrar_cuidado()
+            alertas_cuidados()
         elif opcao == "2":
             visualizar_cuidados()
+            alertas_cuidados()
         elif opcao == "0":
-            return "principal"  # sinaliza ao main para voltar
+            return "principal" 
         else:
             print("Opção inválida.")
