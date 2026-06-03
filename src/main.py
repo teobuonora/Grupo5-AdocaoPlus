@@ -1,3 +1,6 @@
+import os
+os.system ("cls")
+
 from crud import menu_animais
 from cuidados import menu_cuidados
 
