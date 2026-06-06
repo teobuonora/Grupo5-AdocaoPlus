@@ -49,3 +49,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+from alertas_regressiva import alertas_cuidados
+aba = "principal"
+
+alertas_cuidados()
+
+while aba != "sair":
+    if aba == "principal":
+        aba = menu_animais()
+    elif aba == "cuidados":
+        aba = menu_cuidados()
+
+print("\nPrograma encerrado.")
