@@ -4,10 +4,7 @@ import re
 PASTA_DADOS = "dados"
 ARQUIVO_USUARIOS = os.path.join(PASTA_DADOS, "usuarios.txt")
 
-
-
 def carregar_usuarios():
-    """Lê o arquivo e retorna dict {nome: {telefone, senha}}"""
     usuarios = {}
     if not os.path.exists(ARQUIVO_USUARIOS):
         return usuarios
@@ -22,22 +19,15 @@ def carregar_usuarios():
                 usuarios[nome] = {"telefone": telefone, "senha": senha}
     return usuarios
 
-
 def salvar_usuarios(usuarios):
-    """Sobrescreve o arquivo com todos os usuários."""
     os.makedirs(PASTA_DADOS, exist_ok=True)
     with open(ARQUIVO_USUARIOS, "w", encoding="utf-8") as f:
         for nome, dados in usuarios.items():
             f.write(f"{nome} | {dados['telefone']} | {dados['senha']}\n")
 
-
-
-
 def validar_telefone(tel):
-    """Aceita formatos: (XX) XXXXX-XXXX ou somente dígitos (10-11)."""
     digitos = re.sub(r"\D", "", tel)
     return 10 <= len(digitos) <= 11
-
 
 def formatar_telefone(tel):
     digitos = re.sub(r"\D", "", tel)
@@ -45,14 +35,10 @@ def formatar_telefone(tel):
         return f"({digitos[:2]}) {digitos[2:7]}-{digitos[7:]}"
     return f"({digitos[:2]}) {digitos[2:6]}-{digitos[6:]}"
 
-
-
-
 def cabecalho(titulo):
     print("\n" + "═" * 40)
     print(f"  {titulo}")
     print("═" * 40)
-
 
 def tela_cadastro():
     cabecalho("CADASTRO DE USUÁRIO")
@@ -86,7 +72,6 @@ def tela_cadastro():
     print(f"\n  ✔ Usuário '{nome}' cadastrado com sucesso!")
     return True
 
-
 def tela_login():
     cabecalho("LOGIN")
     usuarios = carregar_usuarios()
@@ -113,7 +98,6 @@ def tela_login():
             print("  ✗ Senha incorreta. Acesso bloqueado.")
     return None
 
-
 def tela_excluir_conta(usuario_logado):
     cabecalho("EXCLUIR CONTA")
     usuarios = carregar_usuarios()
@@ -128,7 +112,6 @@ def tela_excluir_conta(usuario_logado):
     salvar_usuarios(usuarios)
     print(f"  ✔ Conta '{usuario_logado}' excluída com sucesso.")
     return True
-
 
 def menu_usuario(nome):
     while True:
@@ -147,13 +130,12 @@ def menu_usuario(nome):
         elif op == "2":
             excluido = tela_excluir_conta(nome)
             if excluido:
-                return  
+                return
         elif op == "0":
             print("  Até logo!")
             return
         else:
             print("  Opção inválida.")
-
 
 def menu_login():
     while True:

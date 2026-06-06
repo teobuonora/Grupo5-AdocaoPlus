@@ -1,17 +1,14 @@
 import os
+from datetime import datetime
 
 PASTA_DADOS = "dados"
 
 _contador_id = 0
 
-
-
 def _caminho(usuario):
-    """Retorna o caminho do arquivo .txt do usuário."""
     return os.path.join(PASTA_DADOS, f"{usuario}.txt")
 
 def carregar_animais(usuario):
-    """Lê o arquivo do usuário e reconstrói o dicionário de animais."""
     global _contador_id
     animais = {}
     caminho = _caminho(usuario)
@@ -28,7 +25,7 @@ def carregar_animais(usuario):
                 bloco = {}
             elif linha == "---" and nome_atual:
                 animais[nome_atual] = bloco
-                
+
                 id_val = bloco.get("ID", "0")
                 try:
                     num = int(id_val.split("-")[1])
@@ -55,7 +52,6 @@ def carregar_animais(usuario):
     return animais
 
 def salvar_animais(usuario, animais):
-    """Sobrescreve o arquivo do usuário com todos os animais."""
     os.makedirs(PASTA_DADOS, exist_ok=True)
     caminho = _caminho(usuario)
     with open(caminho, "w", encoding="utf-8") as f:
@@ -69,14 +65,10 @@ def salvar_animais(usuario, animais):
                     f.write(f"{campo}: {valor}\n")
             f.write("---\n")
 
-
-
 def gerar_id():
     global _contador_id
     _contador_id += 1
     return f"{_contador_id}"
-
-
 
 def selecionar_opcao(titulo, opcoes):
     print(f"\n{titulo}")
@@ -89,7 +81,6 @@ def selecionar_opcao(titulo, opcoes):
     return None
 
 def resolver_outro(valor, pergunta):
-    """Se o valor escolhido for 'Outro', pede que o usuário digite qual é."""
     if valor == "Outro":
         digitado = input(f"  {pergunta}: ").strip()
         if digitado:
@@ -106,8 +97,6 @@ def buscar_animal(animais, entrada):
             return nome
     return None
 
-
-
 RACAS_POR_ESPECIE = {
     "Cachorro": ["Labrador", "Golden Retriever", "Bulldog", "Pastor Alemão",
                  "Poodle", "Pit Bull", "Shih Tzu", "SRD (sem raça definida)", "Outro"],
@@ -122,8 +111,6 @@ RACAS_POR_ESPECIE = {
 ESPECIES       = list(RACAS_POR_ESPECIE.keys())
 SAUDES         = ["Saudável", "Doente", "Em recuperação", "Em observação"]
 COMPORTAMENTOS = ["Dócil", "Bravo", "Tímido", "Agitado", "Sociável"]
-
-
 
 def adicionar_animal(usuario):
     animais = carregar_animais(usuario)
@@ -178,12 +165,31 @@ def visualizar_animal(usuario):
     entrada = input("\nDigite o nome ou ID do animal: ").strip()
     nome = buscar_animal(animais, entrada)
     if nome:
-        print(f"\n{'─'*35}")
+        print(f"\n{'─'*40}")
         print(f"  Nome: {nome}")
         for campo, valor in animais[nome].items():
-            if campo != "cuidados":
+            if campo not in ("cuidados",):
                 print(f"  {campo}: {valor}")
-        print(f"{'─'*35}")
+
+        cuidados = animais[nome].get("cuidados", [])
+        if cuidados:
+            print(f"\n  {'─'*36}")
+            print("  PROXIMOS CUIDADOS:")
+            hoje = datetime.today()
+            for c in cuidados:
+                try:
+                    data = datetime.strptime(c["data_prevista"], "%d/%m/%Y")
+                    delta = (data - hoje).days
+                    if delta < 0:
+                        aviso = f"  (atrasado {abs(delta)} dia(s)!)"
+                    elif delta == 0:
+                        aviso = "  (HOJE!)"
+                    else:
+                        aviso = f"  (em {delta} dia(s))"
+                except ValueError:
+                    aviso = "  (data invalida)"
+                print(f"   * {c['tipo']:<22} {c['data_prevista']}  Resp: {c['responsavel']}{aviso}")
+        print(f"{'─'*40}")
     else:
         print("Animal não encontrado.")
 
@@ -192,11 +198,12 @@ def listar_animais(usuario):
     if not animais:
         print("\nNenhum animal cadastrado.")
         return
-    print(f"\n  {'ID':<10} {'Nome':<20} {'Espécie':<12} {'Idade'}")
-    print("  " + "─" * 55)
+    print(f"\n  {'ID':<8} {'Nome':<20} {'Espécie':<12} {'Idade':<12} {'Status'}")
+    print("  " + "─" * 62)
     for nome, info in animais.items():
-        print(f"  {info.get('ID','?'):<10} {nome:<20} "
-              f"{info.get('Espécie','?'):<12} {info.get('Idade','?')}")
+        status = info.get("Status", "Disponível")
+        print(f"  {info.get('ID','?'):<8} {nome:<20} "
+              f"{info.get('Espécie','?'):<12} {info.get('Idade','?'):<12} {status}")
 
 def _pedir_novo_valor(campo, animais, nome_editar):
     if campo == "1":
@@ -272,8 +279,6 @@ def excluir_animal(usuario):
     else:
         print("Animal não encontrado.")
 
-
-
 def menu_animais(usuario):
     while True:
         print("\nMENU PRINCIPAL")
@@ -283,6 +288,8 @@ def menu_animais(usuario):
         print("[4] Editar animal")
         print("[5] Excluir animal")
         print("[6] Ir para Cuidados")
+        print("[7] Ir para Adocao")
+        print("[8] Ir para Sugestoes")
         print("[0] Sair do programa")
 
         funcao = input("Escolha uma função: ").strip()
@@ -299,6 +306,10 @@ def menu_animais(usuario):
             excluir_animal(usuario)
         elif funcao == "6":
             return "cuidados"
+        elif funcao == "7":
+            return "adocao"
+        elif funcao == "8":
+            return "sugestoes"
         elif funcao == "0":
             return "sair"
         else:
