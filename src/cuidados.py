@@ -1,11 +1,13 @@
+from crud import carregar_animais, salvar_animais, buscar_animal, selecionar_opcao, resolver_outro
 from crud import animais, buscar_animal, selecionar_opcao
 from alertas_regressiva import alertas_cuidados
 TIPOS_CUIDADO = ["Vacina", "Banho", "Consulta veterinária", "Treino", "Outro"]
 RESPONSAVEIS  = ["Veterinário", "Tutor", "Funcionário do abrigo", "Voluntário", "Outro"]
 
-def cadastrar_cuidado():
+def cadastrar_cuidado(usuario):
+    animais = carregar_animais(usuario)
     entrada = input("\nDigite o nome ou ID do animal: ").strip()
-    nome = buscar_animal(entrada)
+    nome = buscar_animal(animais, entrada)
     if not nome:
         print("Animal não encontrado.")
         return
@@ -13,6 +15,7 @@ def cadastrar_cuidado():
     tipo = selecionar_opcao("Tipo de cuidado:", TIPOS_CUIDADO)
     if tipo is None:
         return
+    tipo = resolver_outro(tipo, "Digite qual é o tipo de cuidado")
 
     data_prev = input("\nData prevista (DD/MM/AAAA): ").strip()
     partes = data_prev.split("/")
@@ -23,6 +26,7 @@ def cadastrar_cuidado():
     responsavel = selecionar_opcao("Responsável:", RESPONSAVEIS)
     if responsavel is None:
         return
+    responsavel = resolver_outro(responsavel, "Digite qual é o responsável")
 
     if "cuidados" not in animais[nome]:
         animais[nome]["cuidados"] = []
@@ -32,11 +36,13 @@ def cadastrar_cuidado():
         "data_prevista": data_prev,
         "responsavel":   responsavel,
     })
+    salvar_animais(usuario, animais)
     print(f"Cuidado '{tipo}' registrado para {nome}.")
 
-def visualizar_cuidados():
+def visualizar_cuidados(usuario):
+    animais = carregar_animais(usuario)
     entrada = input("\nDigite o nome ou ID do animal: ").strip()
-    nome = buscar_animal(entrada)
+    nome = buscar_animal(animais, entrada)
     if not nome:
         print("Animal não encontrado.")
         return
@@ -50,6 +56,10 @@ def visualizar_cuidados():
     for i, c in enumerate(cuidados, 1):
         print(f"  {i}. {c['tipo']:<25} {c['data_prevista']}  —  Resp: {c['responsavel']}")
 
+def menu_cuidados(usuario):
+    while True:
+        print("\nABA DE CUIDADOS")
+
 def menu_cuidados():
     
     while True:
@@ -62,6 +72,13 @@ def menu_cuidados():
         opcao = input("Escolha uma opção: ").strip()
        
         if opcao == "1":
+
+            cadastrar_cuidado(usuario)
+        elif opcao == "2":
+            visualizar_cuidados(usuario)
+        elif opcao == "0":
+            return "principal"
+
             cadastrar_cuidado()
             alertas_cuidados()
         elif opcao == "2":
@@ -69,5 +86,6 @@ def menu_cuidados():
             alertas_cuidados()
         elif opcao == "0":
             return "principal" 
+
         else:
             print("Opção inválida.")
