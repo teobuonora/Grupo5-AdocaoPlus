@@ -60,7 +60,7 @@ def menu_cuidados(usuario):
     while True:
         print("\nABA DE CUIDADOS")
 
-def menu_cuidados():
+def menu_cuidados(usuario):
     
     while True:
         alertas_cuidados()
