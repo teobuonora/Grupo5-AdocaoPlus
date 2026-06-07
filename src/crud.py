@@ -1,6 +1,8 @@
 import os
 from datetime import datetime
 
+animais = {}
+
 PASTA_DADOS = "dados"
 
 _contador_id = 0
