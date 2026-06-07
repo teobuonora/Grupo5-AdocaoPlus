@@ -1,19 +1,36 @@
 from crud import carregar_animais, buscar_animal
 
 PERFIL_ADOTANTE = {
+    # Cachorro
     ("Cachorro", "Dócil"):    "Famílias com crianças pequenas ou idosos. Ambiente tranquilo.",
     ("Cachorro", "Bravo"):    "Tutor experiente, sem crianças pequenas. Espaço amplo.",
     ("Cachorro", "Agitado"):  "Pessoas ativas, atletas ou famílias com quintal grande.",
     ("Cachorro", "Tímido"):   "Ambiente silencioso, tutor paciente, sem outros animais dominantes.",
     ("Cachorro", "Sociável"): "Qualquer perfil de família. Ótimo para apartamento com passeios regulares.",
+    # Gato
     ("Gato", "Dócil"):        "Apartamentos, adultos solitários ou casais. Baixa manutenção.",
     ("Gato", "Bravo"):        "Tutor experiente com gatos. Espaço próprio sem forçar contato.",
     ("Gato", "Tímido"):       "Ambiente quieto, sem crianças barulhentas. Tutor paciente.",
     ("Gato", "Agitado"):      "Casa com espaço para explorar e brinquedos interativos.",
     ("Gato", "Sociável"):     "Ótimo para quem quer um segundo pet ou família numerosa.",
+    # Pássaro
     ("Pássaro", "Sociável"):  "Famílias que ficam em casa. Interação frequente é essencial.",
+    ("Pássaro", "Dócil"):     "Adultos ou casais tranquilos. Ambiente calmo e rotina estável.",
+    ("Pássaro", "Tímido"):    "Tutor paciente, sem crianças barulhentas. Adaptação lenta e gradual.",
+    ("Pássaro", "Agitado"):   "Família ativa que goste de interagir. Gaiola espaçosa com brinquedos.",
+    ("Pássaro", "Bravo"):     "Tutor experiente com aves. Sem forçar contato; respeitar limites.",
+    # Roedor
     ("Roedor", "Dócil"):      "Crianças acima de 6 anos. Primeiro pet ideal.",
+    ("Roedor", "Tímido"):     "Tutor calmo e paciente. Ambiente silencioso; manuseio gradual.",
+    ("Roedor", "Agitado"):    "Família que goste de observar e estimular. Gaiola com túneis e roda.",
+    ("Roedor", "Sociável"):   "Ótimo para quem quer mais de um roedor. Convivência em dupla recomendada.",
+    ("Roedor", "Bravo"):      "Adulto experiente. Requer socialização cuidadosa e paciência.",
+    # Réptil
     ("Réptil", "Dócil"):      "Adultos com interesse em animais exóticos. Cuidados específicos.",
+    ("Réptil", "Tímido"):     "Tutor experiente, ambiente controlado. Manuseio mínimo no início.",
+    ("Réptil", "Agitado"):    "Colecionador experiente. Terrário adequado com enriquecimento ambiental.",
+    ("Réptil", "Sociável"):   "Adultos curiosos e dedicados. Interação diária com cuidado.",
+    ("Réptil", "Bravo"):      "Herpetologista ou tutor muito experiente. Não recomendado para iniciantes.",
 }
 
 def _faixa_etaria(idade_str):
@@ -109,17 +126,36 @@ def _normalizar_especie(esp):
     return mapa.get(esp, esp)
 
 ATIVIDADES = {
-    ("Cachorro", "Agitado"):  ["Corrida diaria", "Agility", "Buscar objeto ", "Natacao"],
+    # Cachorro
+    ("Cachorro", "Agitado"):  ["Corrida diaria", "Agility", "Buscar objeto", "Natacao"],
     ("Cachorro", "Docil"):    ["Caminhadas curtas", "Sessoes de carinho", "Adestramento basico"],
     ("Cachorro", "Timido"):   ["Socializacao progressiva", "Passeios tranquilos", "Jogos de olfato"],
     ("Cachorro", "Sociavel"): ["Visitas a parques caninos", "Agility em grupo", "Brincadeiras com outros caes"],
     ("Cachorro", "Bravo"):    ["Adestramento com reforco positivo", "Exercicio fisico intenso", "Passeios individuais"],
+    # Gato
     ("Gato", "Agitado"):      ["Brinquedo de vara", "Laser", "Caixa de papelao e tuneis", "Janela para observar"],
     ("Gato", "Timido"):       ["Esconderijos acolhedores", "Brincadeiras suaves e silenciosas"],
     ("Gato", "Sociavel"):     ["Interacao humana frequente", "Brinquedos interativos em grupo"],
+    ("Gato", "Docil"):        ["Sessoes de escovacao", "Brinquedos de pelucia", "Caminhadas com guia (opcional)"],
+    ("Gato", "Bravo"):        ["Brinquedo de vara a distancia", "Enriquecimento ambiental autonomo", "Arranhador e plataformas altas"],
+    # Pássaro
     ("Passaro", "Sociavel"):  ["Interacao diaria fora da gaiola", "Ensino de palavras", "Brinquedos de madeira"],
+    ("Passaro", "Docil"):     ["Musica suave", "Poleiros variados", "Interacao calma diaria"],
+    ("Passaro", "Timido"):    ["Aproximacao gradual e silenciosa", "Brinquedos dentro da gaiola", "Evitar movimentos bruscos"],
+    ("Passaro", "Agitado"):   ["Gaiola ampla com brinquedos", "Interacao frequente", "Estimulos visuais como espelhos"],
+    ("Passaro", "Bravo"):     ["Respeitar espaco da ave", "Brinquedos autonomos", "Aproximacao apenas com luvas no inicio"],
+    # Roedor
     ("Roedor", "Docil"):      ["Roda de exercicio", "Labirinto de papelao", "Exploracao supervisionada"],
+    ("Roedor", "Timido"):     ["Esconderijos na gaiola", "Aproximacao lenta com petiscos", "Evitar ruidos altos"],
+    ("Roedor", "Agitado"):    ["Roda de exercicio", "Tubos e tuneis", "Troca frequente de enriquecimento"],
+    ("Roedor", "Sociavel"):   ["Companhia de outro roedor da mesma especie", "Brincadeiras fora da gaiola", "Escalar e explorar"],
+    ("Roedor", "Bravo"):      ["Manipulacao com luvas no inicio", "Reforco positivo com petiscos", "Nao forcear contato"],
+    # Réptil
     ("Reptil", "Docil"):      ["Banho de sol controlado", "Enriquecimento com esconderijos", "Manuseio gradual"],
+    ("Reptil", "Timido"):     ["Terrario com muitos esconderijos", "Manuseio minimo no inicio", "Rotina estavel sem sobressaltos"],
+    ("Reptil", "Agitado"):    ["Terrario amplo com galhos e substrato", "Estimulos termicos e de umidade", "Observacao sem contato frequente"],
+    ("Reptil", "Sociavel"):   ["Manuseio diario curto", "Exploracao supervisionada fora do terrario", "Interacao com reforco positivo"],
+    ("Reptil", "Bravo"):      ["Nao forcear manuseio", "Usar equipamento de protecao", "Consultar especialista em herpetocultura"],
 }
 
 def _normalizar_comportamento(comp):
@@ -196,6 +232,8 @@ def exibir_sugestoes(usuario):
         print("   ! Animal doente: agende consulta veterinaria com urgencia!")
     elif saude == "Em recuperação":
         print("   ! Em recuperacao: limite atividades fisicas e monitore diariamente.")
+    elif saude == "Em observação":
+        print("   ! Em observacao: acompanhe sinais vitais e registre qualquer mudanca de comportamento.")
 
     compat = _sugerir_compatibilidade(especie, animais)
     if compat:
