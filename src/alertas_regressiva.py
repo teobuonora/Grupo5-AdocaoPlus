@@ -24,10 +24,12 @@ def alertas_cuidados(usuario):
             if dias < 0:
                 print(f"  [ATRASADO] {nome} — {cuidado['tipo']} (previsto: {cuidado['data_prevista']}, {abs(dias)} dia(s) em atraso)")
                 encontrou = True
-            elif dias <= 7:
+            elif dias < 7 and dias >= 0:
                 print(f"  [PROXIMO]  {nome} — {cuidado['tipo']} (previsto: {cuidado['data_prevista']}, faltam {dias} dia(s))")
                 encontrou = True
-
+            else:
+                print(f"  [PROXIMO]  {nome} — {cuidado['tipo']} (previsto: {cuidado['data_prevista']}, faltam {dias} dia(s))")
+                encontrou = True
     if not encontrou:
         print("  Nenhum alerta no momento.")
 
