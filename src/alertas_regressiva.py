@@ -28,7 +28,7 @@ def alertas_cuidados(usuario):
                 print(f"  [PROXIMO]  {nome} — {cuidado['tipo']} (previsto: {cuidado['data_prevista']}, faltam {dias} dia(s))")
                 encontrou = True
             else:
-                print(f"  [PROXIMO]  {nome} — {cuidado['tipo']} (previsto: {cuidado['data_prevista']}, faltam {dias} dia(s))")
+                print(f"  [EM BREVE]  {nome} — {cuidado['tipo']} (previsto: {cuidado['data_prevista']}, faltam {dias} dia(s))")
                 encontrou = True
     if not encontrou:
         print("  Nenhum alerta no momento.")
