@@ -78,8 +78,8 @@ A pasta `dados/` é criada automaticamente quando o sistema salva informações.
 - Recomendado executar em Python 3.8 ou superior.
 
 ## Grupo 5
--Adriano Filho
--Teo Buonora
--Gabriel Salvador
--Matheus Figueiredo
--João Cassimiro
+- Adriano Filho
+- Teo Buonora
+- Gabriel Salvador
+- Matheus Figueiredo
+- João Cassimiro
