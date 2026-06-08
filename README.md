@@ -1,40 +1,85 @@
 # Grupo5-AdocaoPlus
 
-Aplicação de linha de comando para gerenciar animais em um abrigo, registrar cuidados
-e exibir alertas sobre procedimentos agendados (vacinas, banho, consultas, etc.).
+Sistema CLI de abrigo animal para controle de animais, cuidados, adoções e sugestões.
 
-**Principais funcionalidades**
-- Gerenciar cadastro de animais (adicionar, visualizar, listar, editar, excluir).
-- Registrar e visualizar cuidados/agendamentos por animal.
-- Alertas regressivos que mostram cuidados próximos ou em atraso.
+## Visão geral
 
-**Requisitos**
+O projeto oferece um fluxo completo para usuários autenticados:
+- autenticação por login/cadastro de usuário,
+- cadastro, edição, visualização e exclusão de animais,
+- registro de cuidados agendados e alertas regressivos,
+- registro e cancelamento de adoções,
+- sugestões personalizadas de adotante, cuidados, compatibilidade e atividades.
+
+## Requisitos
+
 - Python 3.8+
+- Terminal / linha de comando
 
-**Como executar**
-1. Abra um terminal na pasta do projeto.
+## Como executar
+
+1. Abra o terminal na pasta raiz do projeto.
 2. Execute:
 
 ```bash
 python src/main.py
 ```
 
-Observação: o programa é uma aplicação de terminal que guarda os dados em memória
-durante a execução (não há persistência em arquivo ou banco de dados).
+## Estrutura do projeto
 
-**Estrutura do projeto**
-- [src/main.py](src/main.py) — ponto de entrada e loop de navegação entre menus.
-- [src/crud.py](src/crud.py) — operações de CRUD para animais e menus principais.
-- [src/cuidados.py](src/cuidados.py) — registro e visualização de cuidados/agendamentos.
-- [src/alertas_regressiva.py](src/alertas_regressiva.py) — lógica de alertas por data.
+- `src/main.py` — ponto de entrada; gerencia login e navegação entre as abas.
+- `src/login.py` — cadastro e login de usuários; valida telefone e senha.
+- `src/crud.py` — operações de CRUD para animais e menu principal.
+- `src/cuidados.py` — cadastro e visualização de cuidados e integração de alertas.
+- `src/alertas_regressiva.py` — alertas de cuidados próximos ou atrasados.
+- `src/adocao.py` — registro e cancelamento de adoções com histórico.
+- `src/sugestoes.py` — sugestões de perfil de adotante, cuidados, compatibilidade e atividades.
 
-**Uso**
-- O menu principal permite adicionar, visualizar, listar, editar e excluir animais.
-- A seção de cuidados permite cadastrar agendamentos (tipo, data, responsável)
-	e exibe alertas automáticos para itens próximos ou atrasados.
+## Persistência de dados
 
-**Contribuições**
-- Sugestões e melhorias são bem-vindas — abra uma issue ou envie um pull request.
+Os dados são gravados em arquivos de texto dentro da pasta `dados/`:
+- `dados/usuarios.txt` — usuários cadastrados.
+- `dados/<usuario>.txt` — animais e cuidados por usuário.
+- `dados/adocoes.txt` — histórico de adoções.
 
-**Licença**
-- Sem licença explícita (adicione uma se desejar compartilhar publicamente).
+A pasta `dados/` é criada automaticamente quando o sistema salva informações.
+
+## Funcionalidades principais
+
+### Login e cadastro
+- Cadastro de usuário com validação de telefone e confirmação de senha.
+- Login com até 3 tentativas de senha.
+
+### Gestão de animais
+- Adicionar animal com informações de espécie, raça, idade, saúde, comportamento e chegada.
+- Visualizar animal por nome ou ID.
+- Listar todos os animais cadastrados.
+- Editar campos do animal.
+- Excluir animal do cadastro.
+
+### Cuidados e alertas
+- Registrar cuidados com tipo, data prevista e responsável.
+- Visualizar lista de cuidados cadastrados.
+- Alertas automáticos para cuidados próximos ou atrasados.
+
+### Adoção
+- Registrar adoção de animais disponíveis.
+- Validar CPF do adotante e gravar dados de contato.
+- Cancelar adoções e devolver o animal ao status disponível.
+
+### Sugestões
+- Sugestões personalizadas baseadas em espécie, comportamento, idade e saúde.
+- Recomendações de adotante ideal, cuidados especiais, compatibilidade e atividades.
+
+## Observações
+
+- Aplicação de terminal CLI.
+- Dados armazenados em arquivos de texto simples.
+- Recomendado executar em Python 3.8 ou superior.
+
+## Grupo 5
+- Adriano Filho
+- Teo Buonora
+- Gabriel Salvador
+- Matheus Figueiredo
+- João Cassimiro
