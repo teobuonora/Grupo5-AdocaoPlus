@@ -1,5 +1,4 @@
 import os
-import re
 
 PASTA_DADOS = "dados"
 ARQUIVO_USUARIOS = os.path.join(PASTA_DADOS, "usuarios.txt")
@@ -37,12 +36,12 @@ def salvar_usuarios(usuarios):
             f.write(f"{nome} | {dados['telefone']} | {dados['senha']}\n")
 
 def validar_telefone(tel):
-    digitos = re.sub(r"\D", "", tel)
+    digitos = "".join(c for c in tel if c.isdigit())
     return 10 <= len(digitos) <= 11
 
 
 def formatar_telefone(tel):
-    digitos = re.sub(r"\D", "", tel)
+    digitos = "".join(c for c in tel if c.isdigit())
 
     if len(digitos) == 11:
         return f"({digitos[:2]}) {digitos[2:7]}-{digitos[7:]}"
