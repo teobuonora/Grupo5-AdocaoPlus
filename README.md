@@ -49,7 +49,6 @@ A pasta `dados/` é criada automaticamente quando o sistema salva informações.
 ### Login e cadastro
 - Cadastro de usuário com validação de telefone e confirmação de senha.
 - Login com até 3 tentativas de senha.
-- Tela de conta com opção de exclusão do usuário.
 
 ### Gestão de animais
 - Adicionar animal com informações de espécie, raça, idade, saúde, comportamento e chegada.
@@ -61,7 +60,7 @@ A pasta `dados/` é criada automaticamente quando o sistema salva informações.
 ### Cuidados e alertas
 - Registrar cuidados com tipo, data prevista e responsável.
 - Visualizar lista de cuidados cadastrados.
-- Alertas automáticos para cuidados próximos (até 7 dias) ou atrasados.
+- Alertas automáticos para cuidados próximos ou atrasados.
 
 ### Adoção
 - Registrar adoção de animais disponíveis.
