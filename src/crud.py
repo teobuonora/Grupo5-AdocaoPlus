@@ -1,10 +1,7 @@
 import os
 from datetime import datetime
 
-animais = {}
-
 PASTA_DADOS = "dados"
-
 _contador_id = 0
 
 def _caminho(usuario):
@@ -27,13 +24,12 @@ def carregar_animais(usuario):
                 bloco = {}
             elif linha == "---" and nome_atual:
                 animais[nome_atual] = bloco
-
                 id_val = bloco.get("ID", "0")
                 try:
-                    num = int(id_val.split("-")[1])
+                    num = int(id_val)
                     if num > _contador_id:
                         _contador_id = num
-                except (IndexError, ValueError):
+                except ValueError:
                     pass
                 nome_atual = None
                 bloco = {}
@@ -100,10 +96,8 @@ def buscar_animal(animais, entrada):
     return None
 
 RACAS_POR_ESPECIE = {
-    "Cachorro": ["Labrador", "Golden Retriever", "Bulldog", "Pastor Alemão",
-                 "Poodle", "Pit Bull", "Shih Tzu", "SRD (sem raça definida)", "Outro"],
-    "Gato":     ["Persa", "Siamês", "Maine Coon", "Ragdoll",
-                 "SRD (sem raça definida)", "Outro"],
+    "Cachorro": ["Labrador", "Golden Retriever", "Bulldog", "Pastor Alemão", "Poodle", "Pit Bull", "Shih Tzu", "SRD (sem raça definida)", "Outro"],
+    "Gato":     ["Persa", "Siamês", "Maine Coon", "Ragdoll", "SRD (sem raça definida)", "Outro"],
     "Pássaro":  ["Calopsita", "Periquito", "Canário", "Papagaio", "Outro"],
     "Réptil":   ["Iguana", "Tartaruga", "Gecko", "Cobra", "Outro"],
     "Roedor":   ["Hamster", "Cobaia", "Camundongo", "Chinchila", "Outro"],
@@ -116,20 +110,17 @@ COMPORTAMENTOS = ["Dócil", "Bravo", "Tímido", "Agitado", "Sociável"]
 
 def adicionar_animal(usuario):
     animais = carregar_animais(usuario)
-
     nome_chave = input("\nNome do animal: ").strip()
     if not nome_chave:
         print("Nome inválido.")
         return
 
     especie = selecionar_opcao("Espécie:", ESPECIES)
-    if especie is None:
-        return
+    if especie is None: return
     especie = resolver_outro(especie, "Digite qual é a espécie")
 
     raca = selecionar_opcao(f"Raça ({especie}):", RACAS_POR_ESPECIE.get(especie, ["Outro"]))
-    if raca is None:
-        return
+    if raca is None: return
     raca = resolver_outro(raca, "Digite qual é a raça")
 
     idade = input("\nIdade (ex: 3 anos, 6 meses): ").strip()
@@ -138,17 +129,14 @@ def adicionar_animal(usuario):
         return
 
     saude = selecionar_opcao("Estado de saúde:", SAUDES)
-    if saude is None:
-        return
+    if saude is None: return
     saude = resolver_outro(saude, "Digite qual é o estado de saúde")
 
     comportamento = selecionar_opcao("Comportamento:", COMPORTAMENTOS)
-    if comportamento is None:
-        return
+    if comportamento is None: return
     comportamento = resolver_outro(comportamento, "Digite qual é o comportamento")
 
     data_chegada = input("\nData de chegada (DD/MM/AAAA): ").strip()
-
     novo_id = gerar_id()
     animais[nome_chave] = {
         "ID":              novo_id,
@@ -158,6 +146,7 @@ def adicionar_animal(usuario):
         "Estado de saúde": saude,
         "Comportamento":   comportamento,
         "Data de chegada": data_chegada,
+        "Status":          "Disponível"
     }
     salvar_animais(usuario, animais)
     print(f"\nAnimal adicionado com sucesso! ID gerado: {novo_id}")
@@ -190,7 +179,7 @@ def visualizar_animal(usuario):
                         aviso = f"  (em {delta} dia(s))"
                 except ValueError:
                     aviso = "  (data invalida)"
-                print(f"   * {c['tipo']:<22} {c['data_prevista']}  Resp: {c['responsavel']}{aviso}")
+                print(f"    * {c['tipo']:<22} {c['data_prevista']}  Resp: {c['responsavel']}{aviso}")
         print(f"{'─'*40}")
     else:
         print("Animal não encontrado.")
@@ -213,10 +202,7 @@ def _pedir_novo_valor(campo, animais, nome_editar):
         return resolver_outro(val, "Digite qual é a espécie") if val else val
     elif campo == "2":
         especie_atual = animais[nome_editar].get("Espécie", "Outro")
-        val = selecionar_opcao(
-            f"Nova raça ({especie_atual}):",
-            RACAS_POR_ESPECIE.get(especie_atual, ["Outro"])
-        )
+        val = selecionar_opcao(f"Nova raça ({especie_atual}):", RACAS_POR_ESPECIE.get(especie_atual, ["Outro"]))
         return resolver_outro(val, "Digite qual é a raça") if val else val
     elif campo == "3":
         return input("Nova idade: ").strip()
@@ -243,15 +229,7 @@ def editar_animal(usuario):
         if campo != "cuidados":
             print(f"  {campo}: {valor}")
 
-    campos = {
-        "1": "Espécie",
-        "2": "Raça",
-        "3": "Idade",
-        "4": "Estado de saúde",
-        "5": "Comportamento",
-        "6": "Data de chegada",
-    }
-
+    campos = {"1": "Espécie", "2": "Raça", "3": "Idade", "4": "Estado de saúde", "5": "Comportamento", "6": "Data de chegada"}
     print("\nO que deseja editar?")
     for k, label in campos.items():
         print(f"  [{k}] {label}")
@@ -268,7 +246,7 @@ def editar_animal(usuario):
 
     animais[nome_editar][campos[campo]] = novo_valor
     salvar_animais(usuario, animais)
-    print(f"Campo '{campos[campo]}' atualizado com sucesso!")
+    print(f"Campo '{campos[campo]}' updated com sucesso!")
 
 def excluir_animal(usuario):
     animais = carregar_animais(usuario)
@@ -290,29 +268,18 @@ def menu_animais(usuario):
         print("[4] Editar animal")
         print("[5] Excluir animal")
         print("[6] Ir para Cuidados")
-        print("[7] Ir para Adocao")
+        print("[7] Ir para Adoção")
         print("[8] Ir para Sugestoes")
         print("[0] Sair do programa")
 
         funcao = input("Escolha uma função: ").strip()
-
-        if funcao == "1":
-            adicionar_animal(usuario)
-        elif funcao == "2":
-            visualizar_animal(usuario)
-        elif funcao == "3":
-            listar_animais(usuario)
-        elif funcao == "4":
-            editar_animal(usuario)
-        elif funcao == "5":
-            excluir_animal(usuario)
-        elif funcao == "6":
-            return "cuidados"
-        elif funcao == "7":
-            return "adocao"
-        elif funcao == "8":
-            return "sugestoes"
-        elif funcao == "0":
-            return "sair"
-        else:
-            print("Função inválida.")
+        if funcao == "1": adicionar_animal(usuario)
+        elif funcao == "2": visualizar_animal(usuario)
+        elif funcao == "3": listar_animais(usuario)
+        elif funcao == "4": editar_animal(usuario)
+        elif funcao == "5": excluir_animal(usuario)
+        elif funcao == "6": return "cuidados"
+        elif funcao == "7": return "adocao"
+        elif funcao == "8": return "sugestoes"
+        elif funcao == "0": return "sair"
+        else: print("Função inválida.")

@@ -1,28 +1,40 @@
 import os
 from datetime import datetime
-from crud import carregar_animais, salvar_animais, buscar_animal, selecionar_opcao
+from crud import carregar_animais, salvar_animais, buscar_animal
 
 PASTA_DADOS = "dados"
 ARQUIVO_ADOCOES = os.path.join(PASTA_DADOS, "adocoes.txt")
 
 def carregar_adocoes():
     adocoes = []
+
     if not os.path.exists(ARQUIVO_ADOCOES):
         return adocoes
+
     with open(ARQUIVO_ADOCOES, "r", encoding="utf-8") as f:
         bloco = {}
+
         for linha in f:
-            linha = linha.rstrip("\n")
-            if linha == "---" and bloco:
-                adocoes.append(bloco)
-                bloco = {}
+            linha = linha.strip()
+
+            if linha == "---":
+                if bloco:
+                    adocoes.append(bloco)
+                    bloco = {}
+
             elif ":" in linha:
                 chave, _, valor = linha.partition(":")
                 bloco[chave.strip()] = valor.strip()
+
+        if bloco:
+            adocoes.append(bloco)
+
     return adocoes
+
 
 def salvar_adocoes(adocoes):
     os.makedirs(PASTA_DADOS, exist_ok=True)
+
     with open(ARQUIVO_ADOCOES, "w", encoding="utf-8") as f:
         for a in adocoes:
             for chave, valor in a.items():
@@ -35,9 +47,11 @@ def _validar_data(data_str):
     except ValueError:
         return None
 
+
 def _validar_cpf(cpf):
     digitos = "".join(filter(str.isdigit, cpf))
     return len(digitos) == 11
+
 
 def _formatar_cpf(cpf):
     d = "".join(filter(str.isdigit, cpf))
@@ -46,8 +60,10 @@ def _formatar_cpf(cpf):
 def registrar_adocao(usuario):
     animais = carregar_animais(usuario)
 
-    disponiveis = {n: i for n, i in animais.items()
-                   if i.get("Status", "Disponível") == "Disponível"}
+    disponiveis = {
+        n: i for n, i in animais.items()
+        if i.get("Status", "Disponível") == "Disponível"
+    }
 
     if not disponiveis:
         print("\nNenhum animal disponível para adoção no momento.")
@@ -56,36 +72,38 @@ def registrar_adocao(usuario):
     print("\n── Animais disponíveis ──")
     print(f"  {'ID':<8} {'Nome':<20} {'Espécie':<12} {'Idade'}")
     print("  " + "─" * 52)
-    for nome, info in disponiveis.items():
-        print(f"  {info.get('ID','?'):<8} {nome:<20} "
-              f"{info.get('Espécie','?'):<12} {info.get('Idade','?')}")
 
-    entrada = input("\nDigite o nome ou ID do animal a ser adotado: ").strip()
+    for nome, info in disponiveis.items():
+        print(f"  {info.get('ID','?'):<8} {nome:<20} {info.get('Espécie','?'):<12} {info.get('Idade','?')}")
+
+    entrada = input("\nDigite o nome ou ID do animal: ").strip()
     nome = buscar_animal(animais, entrada)
-    if not nome or animais[nome].get("Status", "Disponível") != "Disponível":
+
+    if not nome or animais[nome].get("Status") != "Disponível":
         print("Animal não encontrado ou não disponível.")
         return
 
     print(f"\n── Dados do adotante para '{nome}' ──")
-    adotante = input("  Nome do adotante       : ").strip()
+
+    adotante = input("Nome do adotante: ").strip()
     if not adotante:
-        print("  ✗ Nome inválido.")
+        print("Nome inválido.")
         return
 
-    cpf_raw = input("  CPF (somente números)  : ").strip()
+    cpf_raw = input("CPF (somente números): ").strip()
     if not _validar_cpf(cpf_raw):
-        print("  ✗ CPF inválido (precisa ter 11 dígitos).")
+        print("CPF inválido.")
         return
     cpf = _formatar_cpf(cpf_raw)
 
-    telefone = input("  Telefone               : ").strip()
+    telefone = input("Telefone: ").strip()
     if not telefone:
-        print("  ✗ Telefone inválido.")
+        print("Telefone inválido.")
         return
 
-    data_raw = input("  Data da adoção (DD/MM/AAAA): ").strip()
+    data_raw = input("Data da adoção (DD/MM/AAAA): ").strip()
     if not _validar_data(data_raw):
-        print("  ✗ Data inválida. Use DD/MM/AAAA.")
+        print("Data inválida.")
         return
 
     animais[nome]["Status"] = "Adotado"
@@ -94,22 +112,27 @@ def registrar_adocao(usuario):
 
     adocoes = carregar_adocoes()
     adocoes.append({
-        "Animal":    nome,
+        "Animal": nome,
         "ID Animal": animais[nome].get("ID", "?"),
-        "Espécie":   animais[nome].get("Espécie", "?"),
-        "Adotante":  adotante,
-        "CPF":       cpf,
-        "Telefone":  telefone,
-        "Data":      data_raw,
-        "Usuario":   usuario,
+        "Espécie": animais[nome].get("Espécie", "?"),
+        "Adotante": adotante,
+        "CPF": cpf,
+        "Telefone": telefone,
+        "Data": data_raw,
+        "Usuario": usuario,
     })
+
     salvar_adocoes(adocoes)
-    print(f"\n  ✔ Adoção de '{nome}' registrada com sucesso para {adotante}!")
+
+    print(f"\n✔ Adoção de '{nome}' registrada com sucesso!")
 
 def cancelar_adocao(usuario):
     animais = carregar_animais(usuario)
-    adotados = {n: i for n, i in animais.items()
-                if i.get("Status", "Disponível") == "Adotado"}
+
+    adotados = {
+        n: i for n, i in animais.items()
+        if i.get("Status") == "Adotado"
+    }
 
     if not adotados:
         print("\nNenhum animal com status 'Adotado' encontrado.")
@@ -119,85 +142,40 @@ def cancelar_adocao(usuario):
     for nome, info in adotados.items():
         print(f"  {info.get('ID','?'):<8} {nome:<20} Adotante: {info.get('Adotante','?')}")
 
-    entrada = input("\nDigite o nome ou ID do animal para cancelar a adoção: ").strip()
+    entrada = input("\nDigite o nome ou ID para cancelar a adoção: ").strip()
     nome = buscar_animal(animais, entrada)
+
     if not nome or animais[nome].get("Status") != "Adotado":
-        print("Animal não encontrado ou não está como adotado.")
+        print("Animal não encontrado ou não está adotado.")
         return
 
-    confirma = input(f"Confirma o cancelamento da adoção de '{nome}'? (s/n): ").strip().lower()
-    if confirma != "s":
-        print("Operação cancelada.")
-        return
-
-    adotante_anterior = animais[nome].pop("Adotante", "")
     animais[nome]["Status"] = "Disponível"
+    animais[nome].pop("Adotante", None)
     salvar_animais(usuario, animais)
 
     adocoes = carregar_adocoes()
-    adocoes = [a for a in adocoes if not (
-        a.get("Animal") == nome and a.get("Adotante") == adotante_anterior
-    )]
+    adocoes = [a for a in adocoes if a.get("Animal") != nome]
     salvar_adocoes(adocoes)
-    print(f"  ✔ Adoção de '{nome}' cancelada. Animal disponível novamente.")
 
-def listar_adocoes():
-    adocoes = carregar_adocoes()
-    if not adocoes:
-        print("\nNenhuma adoção registrada.")
-        return
-
-    print(f"\n{'─'*70}")
-    print(f"  {'Animal':<18} {'Adotante':<22} {'CPF':<16} {'Data'}")
-    print(f"{'─'*70}")
-    for a in adocoes:
-        print(f"  {a.get('Animal','?'):<18} {a.get('Adotante','?'):<22} "
-              f"{a.get('CPF','?'):<16} {a.get('Data','?')}")
-    print(f"{'─'*70}")
-    print(f"  Total de adoções: {len(adocoes)}")
-
-def buscar_adocao_por_adotante():
-    adocoes = carregar_adocoes()
-    if not adocoes:
-        print("\nNenhuma adoção registrada.")
-        return
-
-    nome_busca = input("\nNome do adotante (ou parte): ").strip().lower()
-    resultados = [a for a in adocoes if nome_busca in a.get("Adotante", "").lower()]
-
-    if not resultados:
-        print("Nenhuma adoção encontrada para esse adotante.")
-        return
-
-    print(f"\n── Resultados para '{nome_busca}' ──")
-    for a in resultados:
-        print(f"\n  Animal   : {a.get('Animal','?')} (ID: {a.get('ID Animal','?')})")
-        print(f"  Espécie  : {a.get('Espécie','?')}")
-        print(f"  Adotante : {a.get('Adotante','?')}")
-        print(f"  CPF      : {a.get('CPF','?')}")
-        print(f"  Telefone : {a.get('Telefone','?')}")
-        print(f"  Data     : {a.get('Data','?')}")
+    print(f"Adoção de '{nome}' cancelada com sucesso!")
 
 def menu_adocao(usuario):
     while True:
         print("\nABA DE ADOÇÃO")
-        print("[1] Registrar nova adoção")
+        print("[1] Registrar adoção")
         print("[2] Cancelar adoção")
-        print("[3] Listar todas as adoções")
-        print("[4] Buscar adoção por adotante")
         print("[0] Voltar ao menu principal")
 
         opcao = input("Escolha uma opção: ").strip()
 
         if opcao == "1":
             registrar_adocao(usuario)
+
         elif opcao == "2":
             cancelar_adocao(usuario)
-        elif opcao == "3":
-            listar_adocoes()
-        elif opcao == "4":
-            buscar_adocao_por_adotante()
+
         elif opcao == "0":
             return "principal"
+
         else:
             print("Opção inválida.")

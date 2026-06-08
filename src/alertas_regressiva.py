@@ -1,5 +1,5 @@
-from crud import animais
 from datetime import datetime
+import crud
 
 def verificar_data(data_str):
     try:
@@ -7,8 +7,8 @@ def verificar_data(data_str):
     except ValueError:
         return None
 
-def alertas_cuidados():
-   
+def alertas_cuidados(usuario):
+    animais = crud.carregar_animais(usuario)
     hoje = datetime.today().date()
     encontrou = False
 
@@ -22,29 +22,22 @@ def alertas_cuidados():
             dias = (data - hoje).days
 
             if dias < 0:
-                print(f"  [ATRASADO] {nome} — {cuidado['tipo']} "
-                      f"(previsto: {cuidado['data_prevista']}, "
-                      f"{abs(dias)} dia(s) em atraso)")
+                print(f"  [ATRASADO] {nome} — {cuidado['tipo']} (previsto: {cuidado['data_prevista']}, {abs(dias)} dia(s) em atraso)")
                 encontrou = True
-
             elif dias <= 7:
-                print(f"  [PROXIMO]  {nome} — {cuidado['tipo']} "
-                      f"(previsto: {cuidado['data_prevista']}, "
-                      f"faltam {dias} dia(s))")
+                print(f"  [PROXIMO]  {nome} — {cuidado['tipo']} (previsto: {cuidado['data_prevista']}, faltam {dias} dia(s))")
                 encontrou = True
 
     if not encontrou:
         print("  Nenhum alerta no momento.")
 
-def menu_relatorios():
+def menu_relatorios(usuario):
     while True:
-        alertas_cuidados()  
-
+        alertas_cuidados(usuario)  
         print("\nRELATORIOS E ALERTAS")
         print("[0] Voltar ao menu principal")
 
         opcao = input("Escolha uma opcao: ").strip()
-
         if opcao == "0":
             return "principal"
         else:
